@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Pesanan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Data Pesanan Diterima</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Pesanan</th>
+                <th>Alamat Retail</th>
+                <th>Alamat Supplier</th>
+                <th>Jumlah</th>
+                <th>Berat</th>
+                <th>Produk</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pesanan in pesanan %}
+            <tr>
+                <td>{{ pesanan['id_produk'] }}</td>
+                <td>{{ pesanan['alamat_retail'] }}</td>
+                <td>{{ pesanan['alamat_supplier'] }}</td>
+                <td>{{ pesanan['id_jumlah'] }}</td>
+                <td>{{ pesanan['id_berat'] }}</td>
+                <td>{{ pesanan['id_produk'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>Data Ongkos Kirim</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Resi</th>
+                <th>Alamat Retail</th>
+                <th>Alamat Supplier</th>
+                <th>Harga</th>
+                <th>Status</th>
+                <th>Update Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ongkos in ongkos %}
+            <tr>
+                <td>{{ ongkos['id_resi'] }}</td>
+                <td>{{ ongkos['alamat_retail'] }}</td>
+                <td>{{ ongkos['alamat_supplier'] }}</td>
+                <td>{{ ongkos['harga'] }}</td>
+                <td>{{ ongkos['id_status'] }}</td>
+                <td>
+                    <form method="POST" action="/update_status">
+                        <input type="hidden" name="doc_id" value="{{ ongkos['id_resi'] }}">
+                        <select name="status">
+                            {% for status in status_list %}
+                            <option value="{{ status }}" {% if status == ongkos['id_status'] %} selected {% endif %}>
+                                {{ status }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
